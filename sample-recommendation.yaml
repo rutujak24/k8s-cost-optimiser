@@ -1,0 +1,15 @@
+k8s-cost-optimizer scaffold starting
+apiVersion: finops.yourname.dev/v1
+kind: CostRecommendation
+metadata: {}
+spec:
+  autoApplicable: false
+  confidence: medium
+  issue: Memory request 2Gi, average usage 200.0Mi
+  namespace: production
+  potentialSavings: $X/month
+  recommendation: Reduce to 300Mi
+  resourceName: my-app-abc123
+  resourceType: Pod
+status: {}
+
