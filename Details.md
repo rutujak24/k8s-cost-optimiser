@@ -112,3 +112,18 @@ Add cloud pricing integration:
 Small adapter to convert resource savings into $/month using a chosen cloud's pricing API.
 Improve heuristic:
 Use percentile queries, consider per-deployment aggregation, factor in replicas.
+
+
+
+#### What this project does 
+Imagine a container (pod) in Kubernetes asks the cluster for 2 GiB of memory, but in practice it only ever uses 200 MiB. That means you’re paying for memory you don’t need.
+This project contains a small program (an “analyzer”) that:
+Takes a pod’s memory request (what it asked for) and the observed average memory usage (what it actually used),
+Checks whether the pod is over-provisioned (right now it flags it when usage is less than 30% of the requested memory),
+If it’s over-provisioned, it creates a human-readable suggestion — a CostRecommendation — telling you to reduce the pod memory request (e.g., “Reduce to 300Mi”).
+The tool outputs that suggestion as a YAML file (so it’s easy to read or apply later).
+It’s safe: it does not automatically change anything in your cluster — it only suggests changes.
+What it’s not (important)
+It is NOT a full Kubernetes operator yet. It will not automatically apply changes or create Kubernetes CRs in-cluster.
+It does not calculate real dollar savings (the savings field is a placeholder).
+It doesn’t automatically fetch real metrics from Prometheus yet — that can be added.
